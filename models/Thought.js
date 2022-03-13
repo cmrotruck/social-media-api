@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
-const usernameRegex = `^\w{1,280}`;
+const usernameRegex = `/^{1,280}/`;
+const dateFormat = require("../utils/dateFormat");
 
 const ReactionSchema = new Schema(
   {
@@ -57,7 +58,13 @@ const ThoughtSchema = new Schema(
       required: "You need to provide a thought",
       trim: true,
       //must be between 1 and 280 characters
-      match: [usernameRegex, "username must be between 1 and 280 charachters"],
+      validate: [
+        ({ length }) => {
+          length >= 1 && length <= 280;
+        },
+        "username must be between 1 and 280 charachters",
+      ],
+      // match: [usernameRegex, "username must be between 1 and 280 charachters"],
     },
 
     //CreatedAt
@@ -79,7 +86,7 @@ const ThoughtSchema = new Schema(
     },
 
     //reaction(these are like replies)
-    reations: [
+    reactions: [
       //array of nested documents created with the reactionSchema
       ReactionSchema,
     ],
@@ -96,7 +103,7 @@ const ThoughtSchema = new Schema(
 //schema settings
 //create a virtual called reactionCount that retrieves the number of reactions on a thought.
 ThoughtSchema.virtual("reactionCount").get(function () {
-  return reactions.length + 1;
+  return this.reactions.length;
 });
 
 const Thought = model("Thought", ThoughtSchema);
