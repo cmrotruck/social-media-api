@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const usernameRegex = `^\w{1,280}`;
 
 const ReactionSchema = new Schema(
   {
@@ -17,6 +18,7 @@ const ReactionSchema = new Schema(
       //required
       required: true,
       //280 character max
+      max: 280,
     },
 
     //username
@@ -55,11 +57,7 @@ const ThoughtSchema = new Schema(
       required: "You need to provide a thought",
       trim: true,
       //must be between 1 and 280 characters
-      validate: {
-        validator: "isLength",
-        arguments: [1, 280],
-        message: "Thought text should be between 1 and 280 characters.",
-      },
+      match: [usernameRegex, "username must be between 1 and 280 charachters"],
     },
 
     //CreatedAt

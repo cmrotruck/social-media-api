@@ -11,13 +11,14 @@ app.use(express.static("public"));
 app.use(require("./routes"));
 
 mongoose.connect(
-  process.env(mongoDB_URI || "mongodb://localhost:27017/social-media-api-db"),
+  process.env.mongoDB_URI || "mongodb://localhost:27017/social-media-api-db",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
 );
 
+// Use this to log mongo queries being executed!
 mongoose.set("debug", true);
 
 app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));

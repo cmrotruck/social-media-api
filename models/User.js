@@ -1,8 +1,14 @@
 const { Schema, model } = require("mongoose");
+const validate = require("mongoose-validator");
 const { Thought } = require("./Thought");
 const regexEmail = `/^\w[A-Za-z0-9._-]+@\w[A-Za-z0-9]+[.]+\w[A-Za-z0-9]+/`;
 
-const User = new Schema({
+function validateEmail(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
+const UserSchema = new Schema({
   //username
   username: {
     //string
@@ -19,11 +25,11 @@ const User = new Schema({
     //string
     type: String,
     //required
-    required: true,
+    required: "Email address is required",
     //unique
     unique: true,
     //must match a valid email address (look into Mongoose's matching validation)
-    match: [regexEmail, "Please fill a valid email address"],
+    validate: [validateEmail, "Please fill a valid email address"],
   },
   //thoughts
   thoughts: [
@@ -42,3 +48,7 @@ const User = new Schema({
     },
   ],
 });
+
+const User = model("User", UserSchema);
+
+module.exports = User;

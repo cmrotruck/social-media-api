@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cmrotruck/social-media-api#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "mongoose": "^6.2.5"
+    "mongoose": "^6.2.5",
+    "mongoose-validator": "^2.1.0"
   }
 }
