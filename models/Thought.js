@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 const usernameRegex = `/^{1,280}/`;
 const dateFormat = require("../utils/dateFormat");
 
